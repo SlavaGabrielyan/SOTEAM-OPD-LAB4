@@ -1,0 +1,23 @@
+#!/bin/sh
+MAX_SIZE=52428800
+
+git diff --cached --name-only --diff-filter=ACMR | while IFS= read -r file; do
+    case "$file" in
+        Saved/*|*/Saved/*|Intermediate/*|*/Intermediate/*|Binaries/*|*/Binaries/*|DerivedDataCache/*|*/DerivedDataCache/*|.vs/*|*/.vs/*)
+            echo "ОШИБКА [pre-commit]: Запрещено коммитить служебный файл движка: $file"
+            exit 1
+            ;;
+    esac
+
+    if [ -f "$file" ]; then
+        file_size=$(wc -c < "$file" | tr -d ' ')
+        if [ "$file_size" -gt "$MAX_SIZE" ]; then
+            filter_attr=$(git check-attr filter -- "$file" | awk -F': ' '{print $3}')
+            if [ "$filter_attr" != "lfs" ]; then
+                echo "ОШИБКА [pre-commit]: Файл '$file' превышает 50 МБ и не отслеживается через Git LFS!"
+                exit 1
+            fi
+        fi
+    fi
+done
+exit $?
