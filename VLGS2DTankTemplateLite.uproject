@@ -1,0 +1,12 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{CDA45A86-46CB-72FD-EF0D-E0BAA9D025C4}",
+	"Category": "",
+	"Description": "",
+	"Plugins": [
+		{
+			"Name": "SkeletalMeshModelingTools",
+			"Enabled": false
+		}
+	]
+}
