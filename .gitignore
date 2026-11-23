@@ -8,3 +8,6 @@ DerivedDataCache/
 *.opensdf
 *.sdf
 *.suo
+Builds/ 
+Builds/
+Build/
